@@ -125,3 +125,7 @@ def main():
 
         df = pd.DataFrame.from_dict(result_df)
         df.to_csv(result_filename, index=False)
+
+
+if __name__ == "__main__":
+    main()
