@@ -11,7 +11,7 @@
             },
             {
                 "role": "user",
-                "content": "Answer in one token: positive, negative, or neutral"
+                "content": "Answer in one token: positive, negative, or neutral."
             }
         ],
         "max_tokens": 1,

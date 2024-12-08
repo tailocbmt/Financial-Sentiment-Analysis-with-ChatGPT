@@ -49,7 +49,7 @@ def sentiment_to_numeric(sentiment: str):
 
 def sample_random_examples(dataset: pd.DataFrame, ticker: str, example_index: int, n_shots: int, random_state: int):
     # Sample n_shots different examples from the dataset (excluding the example at example_index)
-    ticker_df = dataset.loc[(dataset['ticker'] == ticker) & (
+    ticker_df = dataset.loc[(dataset['ticker'] == ticker) & ~(
         dataset.index.isin([example_index])), :]
     sample_df = ticker_df.sample(
         n=n_shots,
@@ -82,7 +82,7 @@ def generate_messages(sample_contents: List, ticker: str, prompt_type: str, prom
     return sample_messages
 
 
-def format_prompt(ticker, contents, prompt_type, model_type, prompts_file='prompts.json'):
+def format_prompt(ticker, contents, sample_answers, prompt_type, model_type, prompts_file='prompts.json'):
     """
     Get sentiment using a specified prompt type.
 
@@ -108,17 +108,21 @@ def format_prompt(ticker, contents, prompt_type, model_type, prompts_file='promp
     index_messages = generate_messages(
         [actual_content], ticker, prompt_type, prompt_details)[0]
     sample_messages = generate_messages(
-        [sample_contents], ticker, prompt_type, prompt_details)
+        sample_contents, ticker, prompt_type, prompt_details)
 
     index_messages[-1]['content'] = "{message}\n Answer:".format(
         message=index_messages[-1]['content'])
 
     merged_sample_message = ""
-    if sample_messages > 0:
+    if len(sample_messages) > 0:
         merged_sample_messages = []
-        for sample_message in sample_messages:
+        for i, sample_message in enumerate(sample_messages):
             sample_contents = [message['content']
                                for message in sample_message]
+            sample_contents[-1] = "{message}\n Answer: {answer}.".format(
+                message=sample_contents[-1],
+                answer=sample_answers[i]
+            )
             sample_value = "\n ".join(sample_contents)
             merged_sample_messages.append(sample_value)
         merged_sample_message = "\n \n ".join(merged_sample_messages)

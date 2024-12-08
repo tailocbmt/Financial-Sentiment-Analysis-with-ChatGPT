@@ -78,34 +78,37 @@ def main():
         result_df = []
         accuracies, f1_scores = [], []
         true_labels, predictions = [], []
-        for i in tqdm(len(df)):
+        for i in tqdm(range(len(df))):
             predicted_answer = None
             ticker = df.ticker[i]
             samples = sample_random_examples(
                 df, ticker, i, args.n_shots, random_state)
 
-            content = []
+            content, sample_answers = [], []
             if 'A' in prompt:
-                content = content.append(df.text[i])
+                content.append(df.text[i])
                 content.extend(samples.text.to_list())
             else:
-                content = content.append(df.title[i])
+                content.append(df.title[i])
                 content.extend(samples.title.to_list())
 
-            if prompt not in ranking_prompts:
+            if prompt in ranking_prompts:
                 answers = values['label']
                 true_sentiment = df.true_sentiment[i]
                 true_answer = sentiment_to_number[true_sentiment]
+                sample_answers = [answer.lower()
+                                  for answer in samples.true_sentiment.to_list()]
 
                 prompt_content = format_prompt(
-                    ticker, content, prompt, args.model_type, args.json_path)
+                    ticker, content, sample_answers, prompt, args.model_type, args.json_path)
                 predicted_answer = ranking_predict(
                     model, answers, prompt_content, True)
             else:
-                true_answer = df.true_sent_numeric[i]
+                sample_answers = [answer.lower()
+                                  for answer in samples.true_sent_numeric.to_list()]
 
                 prompt_content = format_prompt(
-                    ticker, content, prompt, args.model_type, args.json_path)
+                    ticker, content, sample_answers, prompt, args.model_type, args.json_path)
                 predicted_answer = generating_predict(
                     model,
                     prompt_content,
