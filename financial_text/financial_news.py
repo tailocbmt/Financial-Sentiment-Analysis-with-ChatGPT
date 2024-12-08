@@ -7,6 +7,8 @@ from typing import List
 import pandas as pd
 from sklearn import metrics
 from tqdm import tqdm
+import torch
+import torch.nn.functional as F
 from helper_functions import extract_sentiment, format_prompt, ranking_prompts, generating_prompts, sentiment_to_number, sentiment_to_numeric, sample_random_examples
 from bert import load_model, ranking_predict, generating_predict
 

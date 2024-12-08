@@ -130,7 +130,7 @@ def format_prompt(ticker, contents, sample_answers, prompt_type, model_type, pro
     if model_type == 'BERT':
         message_contents = [message['content'] for message in index_messages]
         index_messages = "\n ".join(message_contents)
-        if merged_sample_message is not None:
+        if merged_sample_message != "":
             index_messages = '{example}\n \n {message}'.format(
                 example=merged_sample_message,
                 message=index_messages

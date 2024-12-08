@@ -1,9 +1,9 @@
-import copy
 import re
 import string
 from typing import Dict
 import unicodedata
 import torch
+import torch.nn.functional as F
 from transformers import AutoTokenizer, AutoModelForMaskedLM
 
 
@@ -76,7 +76,9 @@ def generating_predict(
 def ranking_predict(model, answers, message, verbose=False):
     logps = []
     for option in answers:
-        inputs = "{message} {answer}".format(message, option)
+        inputs = '{message} {answer}'.format(
+            message=message[0],
+            answer=option)
         score_length = len(inputs.split())
 
         if verbose:
