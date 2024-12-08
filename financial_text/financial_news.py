@@ -19,7 +19,7 @@ def parse_args():
     parser.add_argument(
         "--model_name_or_path",
         type=str,
-        default="ltg/deberta-xxlarge-fixed",
+        default="tailocbmt123/deberta-xxlarge-fixed",
         help="Path to the pre-trained model",
     )
     parser.add_argument(
