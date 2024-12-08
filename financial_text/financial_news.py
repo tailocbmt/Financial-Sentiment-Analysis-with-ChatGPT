@@ -11,6 +11,7 @@ import torch
 import torch.nn.functional as F
 from helper_functions import extract_sentiment, format_prompt, ranking_prompts, generating_prompts, sentiment_to_number, sentiment_to_numeric, sample_random_examples
 from bert import load_model, ranking_predict, generating_predict
+from gpt import get_gpt_prediction
 
 
 def parse_args():
@@ -103,18 +104,26 @@ def main():
 
                 prompt_content = format_prompt(
                     ticker, content, sample_answers, prompt, args.model_type, args.json_path)
-                predicted_answer = ranking_predict(
-                    model, answers, prompt_content, True)
+                if args.model_type == 'BERT':
+                    predicted_answer = ranking_predict(
+                        model, answers, prompt_content, True)
+                elif 'gpt' in args.model_type:
+                    predicted_answer = get_gpt_prediction(
+                        args.model_type, prompt_content, values)
             else:
                 sample_answers = [answer.lower()
                                   for answer in samples.true_sent_numeric.to_list()]
 
                 prompt_content = format_prompt(
                     ticker, content, sample_answers, prompt, args.model_type, args.json_path)
-                predicted_answer = generating_predict(
-                    model,
-                    prompt_content,
-                    values['max_tokens'])
+                if args.model_type == 'BERT':
+                    predicted_answer = generating_predict(
+                        model,
+                        prompt_content,
+                        values['max_tokens'])
+                elif 'gpt' in args.model_type:
+                    predicted_answer = get_gpt_prediction(
+                        args.model_type, prompt_content, values)
 
             result_df.append(
                 {
