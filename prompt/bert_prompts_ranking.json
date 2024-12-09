@@ -1,27 +1,4 @@
 {
-    "GPT-P1": {
-        "messages": [
-            {
-                "role": "system",
-                "content": "Act as a financial expert holding {ticker}."
-            },
-            {
-                "role": "assistant",
-                "content": "How do you feel about the headline '{headline}'?"
-            },
-            {
-                "role": "user",
-                "content": "Answer in one token: positive, negative, or neutral."
-            }
-        ],
-        "max_tokens": 1,
-        "top_p": 1,
-        "label": [
-          "positive",
-          "negative",
-          "neutral"
-        ]
-    },
     "GPT-P2": {
       "messages": [
           {
