@@ -15,7 +15,7 @@ generating_prompts = ['GPT-P1N', 'GPT-P2N',
 sentiment_to_number = {
     "Positive": 0,
     "Negative": 1,
-    "neutral": 2
+    "Neutral": 2
 }
 
 
