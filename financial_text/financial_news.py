@@ -85,7 +85,7 @@ def main():
         result_df = []
         accuracies, f1_scores = [], []
         true_labels, predictions = [], []
-        for i in tqdm(range(len(prompts) * len(df))):
+        for i in tqdm(range(len(df))):
             predicted_answer = None
             ticker = df.ticker[i]
             samples = sample_random_examples(
