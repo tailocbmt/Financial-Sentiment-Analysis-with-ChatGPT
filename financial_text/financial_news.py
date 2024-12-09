@@ -16,7 +16,7 @@ def parse_args():
     parser.add_argument(
         "--model_name_or_path",
         type=str,
-        default="tailocbmt123/deberta-xxlarge-fixed",
+        default="gpt-4o",
         help="Path to the pre-trained model",
     )
     parser.add_argument(
@@ -26,12 +26,12 @@ def parse_args():
         help="Number of repetitions to average over",
     )
     parser.add_argument(
-        "--n_shots", type=int, default=1, help="Number of examples to sample"
+        "--n_shots", type=int, default=0, help="Number of examples to sample"
     )
     parser.add_argument(
         "--model_type",
         type=str,
-        default="BERT",
+        default="gpt-4o",
         help="Name of evaluating model",
     )
     parser.add_argument(
@@ -48,8 +48,8 @@ def parse_args():
     )
     parser.add_argument(
         "--openai_api_key",
-        type=int,
-        default='<ADD YOUR API KEY>',
+        type=str,
+        default='<OPEN_API_KEY>',
         help="Batch size for scoring"
     )
     args = parser.parse_args()
