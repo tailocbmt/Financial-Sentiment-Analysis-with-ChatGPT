@@ -140,8 +140,8 @@ def main():
                 }
             )
 
-        df = pd.DataFrame.from_dict(result_df)
-        df.to_csv(result_filename, index=False)
+        result_dataframe = pd.DataFrame.from_dict(result_df)
+        result_dataframe.to_csv(result_filename, index=False)
 
 
 if __name__ == "__main__":
