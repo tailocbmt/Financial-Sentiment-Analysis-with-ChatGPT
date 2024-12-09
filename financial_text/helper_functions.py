@@ -139,7 +139,7 @@ def format_prompt(ticker, contents, sample_answers, prompt_type, model_type, pro
         index_messages = index_messages.replace("\n", "\\n")
         index_messages = [index_messages]
     else:
-        if merged_sample_message is not None:
+        if merged_sample_message != "":
             # Append the reference example to system prompt
             index_messages[0]['content'] = 'By referring to the examples provided below:\n {example}\n \n {message}'.format(
                 example=merged_sample_message,
