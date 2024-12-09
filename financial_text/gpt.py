@@ -5,8 +5,6 @@ from typing import Dict, List
 import numpy as np
 import openai
 
-# Initialize OpenAI API
-openai.api_key = '<ADD YOUR API KEY>'
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -26,6 +24,7 @@ def get_gpt_prediction(model_type: str, messages: List, prompt_details: Dict, ma
     Returns:
     - Sentiment.
     """
+    time.sleep(0.1)
 
     for retry in range(max_retries):
         try:
@@ -50,4 +49,4 @@ def get_gpt_prediction(model_type: str, messages: List, prompt_details: Dict, ma
                 time.sleep(0.1)
             else:
                 # If all retries fail, return NaN values
-                return np.NaN
+                return np.nan
