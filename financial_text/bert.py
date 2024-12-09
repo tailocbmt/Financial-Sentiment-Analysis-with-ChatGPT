@@ -4,7 +4,7 @@ from typing import Dict
 import unicodedata
 import torch
 import torch.nn.functional as F
-from transformers import AutoTokenizer, AutoModelForMaskedLM
+from transformers import AutoTokenizer, AutoModelForMaskedLM, AutoModelForCausalLM
 
 
 def load_model(model_path: str):
@@ -16,7 +16,7 @@ def load_model(model_path: str):
 
     return {
         "tokenizer": tokenizer,
-        "model": model,
+        "model": model
     }
 
 
@@ -58,7 +58,7 @@ def generating_predict(
         do_sample=False,
         use_cache=None,
         max_new_tokens=max_tokens,
-        min_new_tokens=2,
+        min_new_tokens=1,
         temperature=1.0,
         eos_token_id=[model["tokenizer"](eos, add_special_tokens=False).input_ids[1] for eos in [
             ".\\", "\\.", "\\,", "\\;"]]

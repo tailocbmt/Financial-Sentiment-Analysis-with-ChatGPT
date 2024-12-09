@@ -38,11 +38,11 @@ def extract_sentiment(sentiment: str):
 def sentiment_to_numeric(sentiment: str):
     sentiment = sentiment.lower()
     if sentiment == 'positive':
-        return 1
+        return 1.0
     elif sentiment == 'negative':
-        return -1
+        return -1.0
     elif sentiment == 'neutral':
-        return 0
+        return 0.0
     else:
         return np.nan
 

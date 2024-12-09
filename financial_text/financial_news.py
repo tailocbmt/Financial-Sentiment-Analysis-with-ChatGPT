@@ -111,16 +111,17 @@ def main():
                     predicted_answer = get_gpt_prediction(
                         args.model_type, prompt_content, values)
             else:
-                sample_answers = [answer.lower()
+                sample_answers = [answer
                                   for answer in samples.true_sent_numeric.to_list()]
 
                 prompt_content = format_prompt(
                     ticker, content, sample_answers, prompt, args.model_type, args.json_path)
                 if args.model_type == 'BERT':
-                    predicted_answer = generating_predict(
-                        model,
-                        prompt_content,
-                        values['max_tokens'])
+                    predicted_answer = None
+                    # generating_predict(
+                    #     model,
+                    #     prompt_content[0],
+                    #     values['max_tokens'])
                 elif 'gpt' in args.model_type:
                     predicted_answer = get_gpt_prediction(
                         args.model_type, prompt_content, values)
