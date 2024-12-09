@@ -2,17 +2,14 @@ import argparse
 import json
 import pathlib
 import random
-from statistics import mean, stdev
-from typing import List
 import pandas as pd
-from sklearn import metrics
 from tqdm import tqdm
 import torch
 import torch.nn.functional as F
 from helper_functions import extract_sentiment, format_prompt, ranking_prompts, generating_prompts, sentiment_to_number, sentiment_to_numeric, sample_random_examples
-from bert import load_model, ranking_predict, generating_predict
+from bert import load_model, ranking_predict
 from gpt import get_gpt_prediction
-
+import openai
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -49,10 +46,17 @@ def parse_args():
         default=8,
         help="Batch size for scoring"
     )
+    parser.add_argument(
+        "--openai_api_key",
+        type=int,
+        default='<ADD YOUR API KEY>',
+        help="Batch size for scoring"
+    )
     args = parser.parse_args()
     # If n_shots is 0, we don't need to account for random sampling of examples
     if args.n_shots == 0:
         args.n_repetitions = 1
+    openai.api_key = args.openai_api_key
 
     return args
 
@@ -87,7 +91,7 @@ def main():
             samples = sample_random_examples(
                 df, ticker, i, args.n_shots, random_state)
 
-            content, sample_answers = [], []
+            content, sample_answers, logp_answer = [], [], []
             if 'A' in prompt:
                 content.append(df.text[i])
                 content.extend(samples.text.to_list())
@@ -105,7 +109,7 @@ def main():
                 prompt_content = format_prompt(
                     ticker, content, sample_answers, prompt, args.model_type, args.json_path)
                 if args.model_type == 'BERT':
-                    predicted_answer = ranking_predict(
+                    predicted_answer, logp_answer = ranking_predict(
                         model, answers, prompt_content, True)
                 elif 'gpt' in args.model_type:
                     predicted_answer = get_gpt_prediction(
@@ -117,11 +121,8 @@ def main():
                 prompt_content = format_prompt(
                     ticker, content, sample_answers, prompt, args.model_type, args.json_path)
                 if args.model_type == 'BERT':
-                    predicted_answer = None
-                    # generating_predict(
-                    #     model,
-                    #     prompt_content[0],
-                    #     values['max_tokens'])
+                    predicted_answer, logp_answer = ranking_predict(
+                        model, sample_answers, prompt_content, True)
                 elif 'gpt' in args.model_type:
                     predicted_answer = get_gpt_prediction(
                         args.model_type, prompt_content, values)
@@ -134,7 +135,8 @@ def main():
                     'finbert_sentiment': df.finbert_sentiment[i],
                     'finbert_sent_score': df.finbert_sent_score[i],
                     'prompt_content': prompt_content,
-                    'predicted_answer': predicted_answer
+                    'predicted_answer': predicted_answer,
+                    'predicted_logp': logp_answer
                 }
             )
 

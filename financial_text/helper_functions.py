@@ -5,13 +5,16 @@ from typing import Dict, List
 import numpy as np
 import pandas as pd
 
-ranking_prompts = ['GPT-P1', 'GPT-P2',
-                   'GPT-P3', 'GPT-P4',
-                   'GPT-P4A', 'GPT-P5']
-generating_prompts = ['GPT-P1N', 'GPT-P2N',
-                      'GPT-P3N', 'GPT-P4N',
-                      'GPT-P4NA', 'GPT-P5N',
-                      'GPT-P6N', 'GPT-P6']
+ranking_prompts = [
+    'GPT-P1', 'GPT-P2',
+    'GPT-P3', 'GPT-P4',
+    'GPT-P4A', 'GPT-P5',
+    'GPT-P6']
+generating_prompts = [
+    'GPT-P1N', 'GPT-P2N',
+    'GPT-P3N', 'GPT-P4N',
+    'GPT-P4NA', 'GPT-P5N',
+    'GPT-P6N']
 sentiment_to_number = {
     "Positive": 0,
     "Negative": 1,

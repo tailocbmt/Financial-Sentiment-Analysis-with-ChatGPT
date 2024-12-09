@@ -89,9 +89,10 @@ def ranking_predict(model, answers, message, verbose=False):
             score_length,
             model["tokenizer"],
             "cuda",
-            8
+            16
         )
         logps.append(logp)
 
-    prediction = logps.index(max(logps))
-    return prediction - 1
+    prediction = logps.index(max(logps)) - 1
+
+    return prediction, logps
