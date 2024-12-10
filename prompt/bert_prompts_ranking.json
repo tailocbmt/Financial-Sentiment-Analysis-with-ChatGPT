@@ -1,27 +1,4 @@
 {
-    "GPT-P4": {
-      "messages": [
-          {
-              "role": "system",
-              "content": "Act as an expert at forex trading holding {ticker}."
-          },
-          {
-              "role": "assistant",
-              "content": "Based only on the headline '{headline}', will you buy, sell or hold {ticker} in the short term?"
-          },
-          {
-              "role": "user",
-              "content": "Answer in one token: positive for buy, negative for sell, or neutral for hold position."
-          }
-      ],
-      "max_tokens": 1,
-      "top_p": 1,
-      "label": [
-        "positive",
-        "negative",
-        "neutral"
-      ]
-  },
     "GPT-P4A": {
       "messages": [
           {
