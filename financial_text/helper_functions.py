@@ -67,7 +67,7 @@ def generate_messages(sample_contents: List, ticker: str, prompt_type: str, prom
     for sample_content in sample_contents:
         messages = deepcopy(prompt_details['messages'])
 
-        if prompt_type in ['GPT-P4A', 'GPT-P4AN']:
+        if prompt_type in ['GPT-P4A', 'GPT-P4NA']:
             for message in messages:
                 message['content'] = message['content'].replace('{ticker}', ticker).replace('{headline}', sample_content).replace(
                     '{article}', sample_content)

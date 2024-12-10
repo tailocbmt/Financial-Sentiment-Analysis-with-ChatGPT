@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def get_gpt_prediction(model_type: str, messages: List, prompt_details: Dict, max_retries=5):
+def get_gpt_prediction(model_type: str, messages: List, prompt_details: Dict, max_retries=10):
     """
     Get sentiment using a specified prompt type.
 
@@ -46,7 +46,7 @@ def get_gpt_prediction(model_type: str, messages: List, prompt_details: Dict, ma
                 f"Error while processing '{messages}' (Retry {retry + 1}/{max_retries}): {e}")
             if retry < max_retries - 1:
                 # Sleep for a while before retrying
-                time.sleep(0.1)
+                time.sleep(1)
             else:
                 # If all retries fail, return NaN values
                 return np.nan
